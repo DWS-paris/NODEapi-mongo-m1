@@ -13,7 +13,7 @@ Functions
             // Get all post from MongoDB
             Models.post.create(req.body)
             .then( data => resolve(data) )
-            .cath( err => reject(err) )
+            .catch( err => reject(err) )
         })
     }
 
