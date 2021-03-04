@@ -3,9 +3,10 @@ Imports
 */
     // Node
     const express = require('express');
+const Controllers = require('../controller/index');
 
     // Inner
-    const PostModel = require('../models/post.model')
+    const Crontrollers = require('../controller/index');
 //
 
 /* 
@@ -25,12 +26,18 @@ Defintiion
 
             // Define API route to get all data (post)
             this.router.get('/:endpoint', (req, res) => {
-                // Get all data from MongoDB
-                PostModel.find( (err, data) => {
-                    return err
-                    ? res.json( { url: req.originalUrl, data: null, err } )
-                    : res.json( { url: req.originalUrl, data, err: null } )
-                })
+                // User the controller to get data
+                Controllers[req.params.endpoint].readAll()
+                .then( apiResponse => res.json( { data: apiResponse, err: null } ))
+                .then( apiError => res.json( { data: null, err: apiError } ))
+            })
+
+            // Define API route to get all data (post)
+            this.router.delete('/:endpoint/:id', (req, res) => {
+                // User the controller to get data
+                Controllers[req.params.endpoint].deleteOne(req)
+                .then( apiResponse => res.json( { data: apiResponse, err: null } ))
+                .then( apiError => res.json( { data: null, err: apiError } ))
             })
         }
 
