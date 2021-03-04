@@ -43,8 +43,18 @@ Functions
         })
     }
 
-
     // CRUD: update one
+    const updateOne = req => {
+        return new Promise( (resolve, reject) => {
+            // Get all post from MongoDB
+            Models.post.findByIdAndUpdate(req.params.id, req.body, (err, data) => {
+                // Check err
+                return err
+                ? reject(err)
+                : resolve(data)
+            })
+        })
+    }
 
     // CRUD: delete one
     const deleteOne = req => {
@@ -68,6 +78,7 @@ Export
         createOne,
         readAll,
         readOne,
+        updateOne,
         deleteOne
     }
 //

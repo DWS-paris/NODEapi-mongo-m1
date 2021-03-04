@@ -47,7 +47,15 @@ Defintiion
                 .catch( apiError => res.json( { data: null, err: apiError } ))
             })
 
-            // Define API route to get all data
+            // Define API route to update one data
+            this.router.put('/:endpoint/:id', (req, res) => {
+                // User the controller to get data
+                Controllers[req.params.endpoint].updateOne(req)
+                .then( apiResponse => res.json( { data: apiResponse, err: null } ))
+                .catch( apiError => res.json( { data: null, err: apiError } ))
+            })
+
+            // Define API route to delete one data
             this.router.delete('/:endpoint/:id', (req, res) => {
                 // User the controller to get data
                 Controllers[req.params.endpoint].deleteOne(req)
