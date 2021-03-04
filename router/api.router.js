@@ -24,7 +24,12 @@ Defintiion
                 return res.json( { msg: "Hello API" } )
             })
 
-            // Define API route to get all data (post)
+            // Define API route to create on data
+            this.router.post('/:endpoint', (req, res) => {
+                
+            })
+
+            // Define API route to get all data
             this.router.get('/:endpoint', (req, res) => {
                 // User the controller to get data
                 Controllers[req.params.endpoint].readAll()
