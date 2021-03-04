@@ -36,19 +36,16 @@ Server definition
         }
 
         config(){
-            // Define API route
-            this.server.get('/api', (req, res) => {
-                // Rerturn JSON data
-                return res.json( { msg: "Hello API" } )
-            })
+            // Set up API router
+            const ApiRouterClass = require('./router/api.router');
+            const apiRouter = new ApiRouterClass();
+            this.server.use('/api', apiRouter.init());
 
-            // Define backoffice route
-            this.server.get('/', (req, res) => {
-                // Render index.ejs in html in the response
-                return res.render('index', { msg: 'Hello From Node' })
-            })
+            // Set up Backoffice router
+            const BackRouterClass = require('./router/backoffice.router');
+            const backRouter = new BackRouterClass();
+            this.server.use('/', backRouter.init());
 
-            
             // Start server
             this.launch();
         }
