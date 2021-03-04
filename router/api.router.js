@@ -32,7 +32,15 @@ Defintiion
                 .then( apiError => res.json( { data: null, err: apiError } ))
             })
 
-            // Define API route to get all data (post)
+            // Define API route to get one data
+            this.router.get('/:endpoint/:id', (req, res) => {
+                // User the controller to get data
+                Controllers[req.params.endpoint].readOne(req)
+                .then( apiResponse => res.json( { data: apiResponse, err: null } ))
+                .then( apiError => res.json( { data: null, err: apiError } ))
+            })
+
+            // Define API route to get all data
             this.router.delete('/:endpoint/:id', (req, res) => {
                 // User the controller to get data
                 Controllers[req.params.endpoint].deleteOne(req)
