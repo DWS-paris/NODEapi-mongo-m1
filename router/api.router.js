@@ -26,7 +26,9 @@ Defintiion
 
             // Define API route to create on data
             this.router.post('/:endpoint', (req, res) => {
-                
+                Controllers[req.params.endpoint].createOne(req)
+                .then( apiResponse => res.json( { data: apiResponse, err: null } ))
+                .catch( apiError => res.json( { data: null, err: apiError } ))
             })
 
             // Define API route to get all data
@@ -34,7 +36,7 @@ Defintiion
                 // User the controller to get data
                 Controllers[req.params.endpoint].readAll()
                 .then( apiResponse => res.json( { data: apiResponse, err: null } ))
-                .then( apiError => res.json( { data: null, err: apiError } ))
+                .catch( apiError => res.json( { data: null, err: apiError } ))
             })
 
             // Define API route to get one data
@@ -42,7 +44,7 @@ Defintiion
                 // User the controller to get data
                 Controllers[req.params.endpoint].readOne(req)
                 .then( apiResponse => res.json( { data: apiResponse, err: null } ))
-                .then( apiError => res.json( { data: null, err: apiError } ))
+                .catch( apiError => res.json( { data: null, err: apiError } ))
             })
 
             // Define API route to get all data
@@ -50,7 +52,7 @@ Defintiion
                 // User the controller to get data
                 Controllers[req.params.endpoint].deleteOne(req)
                 .then( apiResponse => res.json( { data: apiResponse, err: null } ))
-                .then( apiError => res.json( { data: null, err: apiError } ))
+                .catch( apiError => res.json( { data: null, err: apiError } ))
             })
         }
 

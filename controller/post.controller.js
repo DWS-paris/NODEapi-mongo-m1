@@ -8,6 +8,14 @@ Imports
 Functions
 */
     // CRUD: create one
+    const createOne = req => {
+        return new Promise( (resolve, reject) => {
+            // Get all post from MongoDB
+            Models.post.create(req.body)
+            .then( data => resolve(data) )
+            .cath( err => reject(err) )
+        })
+    }
 
     // CRUD: read all posts
     const readAll = () => {
@@ -57,6 +65,7 @@ Functions
 Export
 */
     module.exports = {
+        createOne,
         readAll,
         readOne,
         deleteOne
