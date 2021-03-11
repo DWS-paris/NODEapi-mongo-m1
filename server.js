@@ -6,6 +6,7 @@ Imports
     const express = require('express'); //=> https://www.npmjs.com/package/express
     const path = require('path'); //=> https://www.npmjs.com/package/path
     const bodyParser = require('body-parser'); //=> https://www.npmjs.com/package/body-parser
+    const cookieParser = require('cookie-parser'); //=> https://www.npmjs.com/package/cookie-parser
 
     // Inner
     const MongoClass = require('./services/mongo.class')
@@ -35,6 +36,9 @@ Server definition
             //=> Body-parser
             this.server.use(bodyParser.json({limit: '20mb'}));
             this.server.use(bodyParser.urlencoded({ extended: true }));
+
+            //=> Use CookieParser to setup serverside cookies
+            this.server.use(cookieParser(process.env.COOKIE_SECRET));
 
             // Start config
             this.config();

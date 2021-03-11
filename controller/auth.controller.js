@@ -34,8 +34,27 @@ Functions
     const login = req => {
         return new Promise( (resolve, reject) => {
             // Get all post from MongoDB
-            Models.user.findOne( { email: req.body.email, password: req.body.password } )
-            .then( data => resolve(data) )
+            Models.user.findOne( { email: req.body.email } )
+            .then( data => {
+                // Check password
+                const passwordValisation = bcrypt.compareSync( req.body.password, data.password );
+                if( passwordValisation) {
+                    // Decrypt user info
+                    const decryptedUser = decryptData(data, 'firstname', 'lastname');
+
+                    // Set user JWT
+                    const userToken = data.generateJwt(data);
+
+                    // Save JWT in the cookie response
+                    res.cookie(process.env.COOKIE_NAME, userToken, { httpOnly: true });
+
+                    console.log(userToken)
+
+                    // Return data
+                    return resolve(decryptedUser)
+                }
+                else{ return reject('Password not valide') }
+            })
             .catch( err => reject(err) )
         })
     }
