@@ -11,12 +11,10 @@ Definition
     const MySchema = new Schema({
         title: { type: String },
         content: String,
-        comments: [
-            {
-                type: Schema.Types.ObjectId,
-                ref: 'comment'
-            }
-        ],
+        comments: [{
+            type: Schema.Types.ObjectId,
+            ref: 'comment'
+        }], 
 
         // Always use those properties
         author: {

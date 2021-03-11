@@ -20,7 +20,10 @@ Defintiion
             // TODO: create CRUD routes
             
             // Define backoffice route for index
-            this.router.get('/', (req, res) => {
+            this.router.get('/', this.passport.authenticate('jwt', { 
+                session: false, 
+                failureRedirect: '/login' 
+            }), (req, res) => {
                 // Get all posts from the BDD
                 Controllers.post.readAll()
                 .then( apiResponse => {
@@ -129,7 +132,7 @@ Defintiion
             })
 
             // Define backoffice route to create new post
-            this.router.post('/post/create', (req, res) => {
+            this.router.post('/post/create', this.passport.authenticate('jwt', { session: false }), (req, res) => {
                 // Get all posts from the BDD
                 Controllers.post.createOne(req)
                 .then( apiResponse => {
@@ -178,12 +181,10 @@ Defintiion
             })
 
             // Define backoffice route to update a post
-            this.router.post('/post/edit/:id', (req, res) => {
+            this.router.post('/post/edit/:id', this.passport.authenticate('jwt', { session: false }), (req, res) => {
                 // Get all posts from the BDD
                 Controllers.post.updateOne(req)
                 .then( apiResponse => {
-                    console.log(apiResponse)
-
                     // Fetch post
                     Controllers.post.readOne(req)
                     .then( postData => {
@@ -203,7 +204,7 @@ Defintiion
                             msg: 'Post not found', 
                             method: req.method,
                             err: postError, 
-                            data: null,
+                            data: {title: undefined, content: undefined},
                             url: req.originalUrl,
                             status: 200
                         })
@@ -224,7 +225,7 @@ Defintiion
             })
 
             // Define backoffice route to delete one post
-            this.router.get('/post/delete/:id', (req, res) => {
+            this.router.get('/post/delete/:id', this.passport.authenticate('jwt', { session: false }), (req, res) => {
                 // Get all posts from the BDD
                 Controllers.post.deleteOne(req)
                 .then( apiResponse => {

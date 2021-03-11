@@ -76,9 +76,11 @@ Functions
                 else{
                     // Check author
                     if( mongoPost.author === req.user._id ){
+                        
                         // Get all post from MongoDB
                         Models.post.findByIdAndUpdate(req.params.id, req.body, (err, data) => {
                             // Check err
+                            
                             return err
                             ? reject(err)
                             : resolve(data)

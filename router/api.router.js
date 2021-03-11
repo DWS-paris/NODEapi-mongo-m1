@@ -53,8 +53,8 @@ Defintiion
 
             // Define API route to update one data
             this.router.put('/:endpoint/:id', this.passport.authenticate('jwt', { session: false }), (req, res) => {
+                console.log(req.user)
                 // TODO: check body data
-                // TODO: check id user can update
                 // User the controller to get data
                 Controllers[req.params.endpoint].updateOne(req)
                 .then( apiResponse => res.json( { data: apiResponse, err: null } ))
