@@ -17,10 +17,10 @@ Functions
             req.body.lastname = cryptData(req.body.lastname);
 
             // [Bcrypt] password
-            bcrypt.hash( req.body.passsword, 10 )
+            bcrypt.hash( req.body.password, 10 )
             .then( hashedPassword => {
                 // Change user password
-                req.body.passsword = hashedPassword;
+                req.body.password = hashedPassword;
 
                 // Register new user
                 Models.user.create(req.body)
@@ -34,7 +34,7 @@ Functions
     const login = req => {
         return new Promise( (resolve, reject) => {
             // Get all post from MongoDB
-            Models.user.findOne( { email: req.body.email, passsword: req.body.password } )
+            Models.user.findOne( { email: req.body.email, password: req.body.password } )
             .then( data => resolve(data) )
             .catch( err => reject(err) )
         })
