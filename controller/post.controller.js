@@ -21,12 +21,23 @@ Functions
     // CRUD: read all posts
     const readAll = () => {
         return new Promise( (resolve, reject) => {
-            // Get all post from MongoDB
-            Models.post.find( (err, data) => {
-                // Check err
-                return err
-                ? reject(err)
-                : resolve(data)
+            // Make populated request
+            Models.post.find()
+            .populate({ 
+                path: 'author',
+                select: ['firstname', 'lastname', 'email']
+            })
+            .populate({ path: 'comment' })
+            .exec( (err, data) => {
+                // Check error
+                if( err ){ return reject(err) }
+                else{
+                    // Decrypt user data
+                    decryptData(data.author, 'firstname', 'lastname')
+
+                    // Send back data
+                    return resolve(data)
+                }
             })
         })
     }
