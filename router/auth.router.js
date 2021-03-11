@@ -26,7 +26,7 @@ Defintiion
             // Define API route to log user
             this.router.post('/login', (req, res) => {
                 // TODO: check body data
-                Controllers.auth.login(req)
+                Controllers.auth.login(req, res)
                 .then( apiResponse => res.json( { data: apiResponse, err: null } ))
                 .catch( apiError => res.json( { data: null, err: apiError } ))
             })

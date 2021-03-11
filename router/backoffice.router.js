@@ -91,7 +91,7 @@ Defintiion
             })
 
             this.router.post('/login', (req, res) => {
-                Controllers.auth.login(req)
+                Controllers.auth.login(req, res)
                 .then( apiResponse => {
                     console.log(apiResponse)
                     // Render index vue with data

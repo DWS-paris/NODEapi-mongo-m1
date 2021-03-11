@@ -31,7 +31,7 @@ Functions
         })
     }
 
-    const login = req => {
+    const login = (req, res) => {
         return new Promise( (resolve, reject) => {
             // Get all post from MongoDB
             Models.user.findOne( { email: req.body.email } )
@@ -47,8 +47,6 @@ Functions
 
                     // Save JWT in the cookie response
                     res.cookie(process.env.COOKIE_NAME, userToken, { httpOnly: true });
-
-                    console.log(userToken)
 
                     // Return data
                     return resolve(decryptedUser)
