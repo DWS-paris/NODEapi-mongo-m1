@@ -1,7 +1,9 @@
 /* 
 Imports
 */
-    const Models = require('../models/index')
+    const bcrypt = require('bcryptjs');
+    const Models = require('../models/index');
+    const { cryptData, decryptData } = require('../services/crypto.service');
 //
 
 /* 
@@ -11,9 +13,21 @@ Functions
     const register = req => {
         return new Promise( (resolve, reject) => {
             // [RGPD] crypt user data
-            Models.user.create(req.body)
-            .then( data => resolve(data) )
-            .catch( err => reject(err) )
+            req.body.firstname = cryptData(req.body.firstname);
+            req.body.lastname = cryptData(req.body.lastname);
+
+            // [Bcrypt] password
+            bcrypt.hash( req.body.passsword, 10 )
+            .then( hashedPassword => {
+                // Change user password
+                req.body.passsword = hashedPassword;
+
+                // Register new user
+                Models.user.create(req.body)
+                .then( data => resolve(data) )
+                .catch( err => reject(err) )
+            })
+            .catch( bcryptError => reject(bcryptError))
         })
     }
 
