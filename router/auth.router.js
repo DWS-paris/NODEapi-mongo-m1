@@ -10,8 +10,9 @@ Imports
 Defintiion
 */
     class RouterClass{
-        constructor(){
+        constructor( { passport } ){
             this.router = express.Router();
+            this.passport = passport
         }
 
         routes(){
@@ -29,6 +30,11 @@ Defintiion
                 Controllers.auth.login(req, res)
                 .then( apiResponse => res.json( { data: apiResponse, err: null } ))
                 .catch( apiError => res.json( { data: null, err: apiError } ))
+            })
+
+            // Define AUTH route to get user info from JWT
+            this.router.get('/me', this.passport.authenticate('jwt', { session: false }), (req, res) => {
+                //
             })
         }
 

@@ -7,6 +7,7 @@ Imports
     const path = require('path'); //=> https://www.npmjs.com/package/path
     const bodyParser = require('body-parser'); //=> https://www.npmjs.com/package/body-parser
     const cookieParser = require('cookie-parser'); //=> https://www.npmjs.com/package/cookie-parser
+    const passport = require('passport'); //=> https://www.npmjs.com/package/passport
 
     // Inner
     const MongoClass = require('./services/mongo.class')
@@ -45,19 +46,23 @@ Server definition
         }
 
         config(){
+            // Set authentication
+            const { setAuthentication } = require('./services/passport.service');
+            setAuthentication(passport);
+
             // Set up AUTH router
             const AuthRouterClass = require('./router/auth.router');
-            const authRouter = new AuthRouterClass();
+            const authRouter = new AuthRouterClass( { passport } );
             this.server.use('/api/auth', authRouter.init());
 
             // Set up API router
             const ApiRouterClass = require('./router/api.router');
-            const apiRouter = new ApiRouterClass();
+            const apiRouter = new ApiRouterClass({ passport });
             this.server.use('/api', apiRouter.init());
 
             // Set up Backoffice router
             const BackRouterClass = require('./router/backoffice.router');
-            const backRouter = new BackRouterClass();
+            const backRouter = new BackRouterClass({ passport });
             this.server.use('/', backRouter.init());
 
             // Start server
