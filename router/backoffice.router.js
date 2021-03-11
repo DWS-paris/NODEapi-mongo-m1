@@ -14,6 +14,8 @@ Defintiion
         }
 
         routes(){
+            // TODO: create CRUD routes
+            
             // Define backoffice route
             this.router.get('/', (req, res) => {
                 // Render index.ejs in html in the response
