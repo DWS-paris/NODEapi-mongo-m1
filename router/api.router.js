@@ -3,10 +3,7 @@ Imports
 */
     // Node
     const express = require('express');
-const Controllers = require('../controller/index');
-
-    // Inner
-    const Crontrollers = require('../controller/index');
+    const Controllers = require('../controller/index');
 //
 
 /* 
