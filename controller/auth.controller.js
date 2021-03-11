@@ -10,7 +10,7 @@ Functions
     // CRUD: create one
     const register = req => {
         return new Promise( (resolve, reject) => {
-            // Get all post from MongoDB
+            // [RGPD] crypt user data
             Models.user.create(req.body)
             .then( data => resolve(data) )
             .catch( err => reject(err) )
