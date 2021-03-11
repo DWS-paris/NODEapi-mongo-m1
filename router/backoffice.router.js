@@ -46,6 +46,70 @@ Defintiion
                 })
             })
 
+            // Define backoffice route for index
+            this.router.get('/register', (req, res) => {
+                return res.render('register', { 
+                    msg: 'Register page', 
+                    method: req.method,
+                    err: null, 
+                    data: null,
+                    url: req.originalUrl,
+                    status: 200
+                })
+            })
+
+            this.router.post('/register', (req, res) => {
+                Controllers.auth.register(req)
+                .then( apiResponse => {
+                    console.log(apiResponse)
+                    // Render index vue with data
+                    return res.redirect('/')
+                })
+                .catch( apiError => {
+                    // Render index vue with error
+                    return res.render('register', { 
+                        msg: 'User not registered', 
+                        method: req.method,
+                        err: apiError, 
+                        data: null,
+                        url: req.originalUrl,
+                        status: 404
+                    })
+                })
+            })
+
+            // Define backoffice route for index
+            this.router.get('/login', (req, res) => {
+                return res.render('login', { 
+                    msg: 'Login page', 
+                    method: req.method,
+                    err: null, 
+                    data: null,
+                    url: req.originalUrl,
+                    status: 200
+                })
+            })
+
+            this.router.post('/login', (req, res) => {
+                Controllers.auth.login(req)
+                .then( apiResponse => {
+                    console.log(apiResponse)
+                    // Render index vue with data
+                    return res.redirect('/')
+                })
+                .catch( apiError => {
+                    // Render index vue with error
+                    return res.render('login', { 
+                        msg: 'User not logged', 
+                        method: req.method,
+                        err: apiError, 
+                        data: null,
+                        url: req.originalUrl,
+                        status: 404
+                    })
+                })
+            })
+
             // Define backoffice route to display form to create new post
             this.router.get('/post/create', (req, res) => {
                 // Render edit vue with data

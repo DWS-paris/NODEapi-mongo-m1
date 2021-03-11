@@ -41,7 +41,10 @@ Server definition
         }
 
         config(){
-            // TODO: set auth route
+            // Set up AUTH router
+            const AuthRouterClass = require('./router/auth.router');
+            const authRouter = new AuthRouterClass();
+            this.server.use('/api/auth', authRouter.init());
 
             // Set up API router
             const ApiRouterClass = require('./router/api.router');
