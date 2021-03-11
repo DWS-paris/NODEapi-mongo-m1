@@ -112,7 +112,7 @@ Defintiion
             })
 
             this.router.get('/me', this.passport.authenticate('jwt', { session: false }), (req, res) => {
-                return res.json(req.user)
+                return res.json(req.user._id)
             })
 
             // Define backoffice route to display form to create new post

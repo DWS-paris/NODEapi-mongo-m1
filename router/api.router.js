@@ -26,6 +26,9 @@ Defintiion
 
             // Define API route to create on data
             this.router.post('/:endpoint', this.passport.authenticate('jwt', { session: false }), (req, res) => {
+                // Inject user _id in body author value
+                req.body.author = req.user._id;
+
                 // TODO: check body data
                 Controllers[req.params.endpoint].createOne(req)
                 .then( apiResponse => res.json( { data: apiResponse, err: null } ))

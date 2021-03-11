@@ -9,12 +9,27 @@ Imports
 Definition
 */
     const MySchema = new Schema({
-        title: String,
+        title: { type: String },
         content: String,
-        author: String,
+        comments: [
+            {
+                type: Schema.Types.ObjectId,
+                ref: 'comment'
+            }
+        ],
+
+        // Always use those properties
+        author: {
+            type: Schema.Types.ObjectId,
+            ref: 'user'
+        },
         dateCreated: {
             type: Date,
             default: new Date()
+        },
+        dateUpdated: {
+            type: Date,
+            default: null
         }
     })
 //
