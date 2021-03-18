@@ -27,6 +27,22 @@ Server definition
         }
 
         init(){
+            // Set CORS
+            this.server.use( (req, res, next) => {
+                // Define allowed origins
+                const allowedOrigins = process.env.ALLOWED_ORIGINS.split(', ');
+                const origin = req.headers.origin;
+
+                // Setup CORS
+                if(allowedOrigins.indexOf(origin) > -1){ res.setHeader('Access-Control-Allow-Origin', origin)}
+                res.header('Access-Control-Allow-Credentials', true);
+                res.header('Access-Control-Allow-Methods', ['GET', 'PUT', 'POST', 'DELETE']);
+                res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+
+                // Use next() function to continue routing
+                next();
+            });
+            
             // Static path configuration
             this.server.set( 'views', __dirname + '/www' );
             this.server.use( express.static(path.join(__dirname, 'www')) );
@@ -53,12 +69,12 @@ Server definition
             // Set up AUTH router
             const AuthRouterClass = require('./router/auth.router');
             const authRouter = new AuthRouterClass( { passport } );
-            this.server.use('/api/auth', authRouter.init());
+            this.server.use('/v1/auth', authRouter.init());
 
             // Set up API router
             const ApiRouterClass = require('./router/api.router');
             const apiRouter = new ApiRouterClass({ passport });
-            this.server.use('/api', apiRouter.init());
+            this.server.use('/v1', apiRouter.init());
 
             // Set up Backoffice router
             const BackRouterClass = require('./router/backoffice.router');
