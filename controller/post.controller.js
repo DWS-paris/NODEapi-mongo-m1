@@ -48,16 +48,22 @@ Functions
             // Make populated request
             Models.post.findById(req.params.id)
             .populate({ 
-                path: 'author',
-                select: ['firstname', 'lastname', 'email']
+                path: 'author'
             })
-            .populate({ path: 'comment' })
+            .populate({ 
+                path: 'comments' ,
+                populate: { 
+                    path: 'author'
+                }
+            })
             .exec( (err, data) => {
                 // Check error
                 if( err ){ return reject(err) }
                 else{
                     // Decrypt user data
                     decryptData(data.author, 'firstname', 'lastname')
+
+                    console.log(data)
 
                     // Send back data
                     return resolve(data)

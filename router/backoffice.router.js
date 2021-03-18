@@ -243,6 +243,51 @@ Defintiion
                 })
             })
             
+            // Define route to display one single post
+            this.router.get('/post/:id', (req, res) => {
+                // Get all posts from the BDD
+                Controllers.post.readOne(req)
+                .then( apiResponse => {
+                    // Render edit vue with data
+                    return res.render('single', { 
+                        msg: 'Post found', 
+                        method: req.method,
+                        err: null, 
+                        data: apiResponse,
+                        url: req.originalUrl,
+                        status: 200
+                    })
+                })
+                .catch( apiError => {
+                    // Render edit vue with error
+                    return res.render('single', { 
+                        msg: 'Post not found', 
+                        method: req.method,
+                        err: apiError, 
+                        data: null,
+                        url: req.originalUrl,
+                        status: 404
+                    })
+                })
+            })
+
+            // Define route to create comment
+            this.router.post('/comment/:postId', this.passport.authenticate('jwt', { session: false }), (req, res) => {
+                Controllers.comment.createOne(req)
+                .then( apiResponse => {
+                    console.log(apiResponse)
+
+                    // Redirect to post page
+                    return res.redirect(`/post/${req.params.postId}`)
+                })
+                .catch( apiError => {
+                    // TODO: check errors
+                    console.log(apiError)
+
+                    // Redirect to post page
+                    return res.redirect(`/post/${req.params.postId}`)
+                })
+            })
         }
 
         init(){
